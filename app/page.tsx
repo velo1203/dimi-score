@@ -3,10 +3,14 @@
 import Head from "next/head";
 import "./page.css";
 import { useEffect, useState } from "react";
+type TeamScore = {
+    team: string;
+    score: number;
+};
 
 export default function Home() {
-    const [blue, setBlue] = useState(null);
-    const [white, setWhite] = useState(null);
+    const [blue, setBlue] = useState<TeamScore | null>(null);
+    const [white, setWhite] = useState<TeamScore | null>(null);
     const [now, setNow] = useState<string>("");
     const [event, setEvent] = useState("-");
 
