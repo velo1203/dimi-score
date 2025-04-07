@@ -5,8 +5,8 @@ import "./page.css";
 import { useEffect, useState } from "react";
 
 export default function Home() {
-    const [blue, setBlue] = useState<any>(null);
-    const [white, setWhite] = useState<any>(null);
+    const [blue, setBlue] = useState(null);
+    const [white, setWhite] = useState(null);
     const [now, setNow] = useState<string>("");
     const [event, setEvent] = useState("-");
 
@@ -29,12 +29,8 @@ export default function Home() {
                 const res = await fetch("/api/scores");
                 const data = await res.json();
                 const scores = data.scores;
-                setBlue(
-                    scores.find((item: any) => item.team === "blue") ?? null
-                );
-                setWhite(
-                    scores.find((item: any) => item.team === "white") ?? null
-                );
+                setBlue(scores.find((item) => item.team === "blue") ?? null);
+                setWhite(scores.find((item) => item.team === "white") ?? null);
 
                 const events = data.events;
                 console.log(events);
