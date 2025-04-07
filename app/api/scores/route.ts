@@ -7,8 +7,25 @@ const supabase = createClient(
 );
 
 export async function GET() {
-    const { data, error } = await supabase.from("scores").select("*");
-    if (error)
-        return NextResponse.json({ error: error.message }, { status: 500 });
-    return NextResponse.json(data);
+    const { data: scores, error: scoreError } = await supabase
+        .from("scores")
+        .select("*");
+
+    const { data: events, error: eventError } = await supabase
+        .from("event")
+        .select("*");
+
+    if (scoreError || eventError) {
+        return NextResponse.json(
+            {
+                error: scoreError?.message || eventError?.message,
+            },
+            { status: 500 }
+        );
+    }
+
+    return NextResponse.json({
+        scores,
+        events,
+    });
 }

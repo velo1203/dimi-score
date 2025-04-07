@@ -8,6 +8,7 @@ export default function Home() {
     const [blue, setBlue] = useState<any>(null);
     const [white, setWhite] = useState<any>(null);
     const [now, setNow] = useState<string>("");
+    const [event, setEvent] = useState("-");
 
     useEffect(() => {
         const updateTime = () => {
@@ -27,10 +28,17 @@ export default function Home() {
             try {
                 const res = await fetch("/api/scores");
                 const data = await res.json();
-                setBlue(data.find((item: any) => item.team === "blue") ?? null);
-                setWhite(
-                    data.find((item: any) => item.team === "white") ?? null
+                const scores = data.scores;
+                setBlue(
+                    scores.find((item: any) => item.team === "blue") ?? null
                 );
+                setWhite(
+                    scores.find((item: any) => item.team === "white") ?? null
+                );
+
+                const events = data.events;
+                console.log(events);
+                setEvent(events[0]?.event ?? "");
             } catch (e) {
                 console.error("데이터 불러오기 오류", e);
             }
@@ -60,7 +68,7 @@ export default function Home() {
                         </div>
                         <div className="info">
                             <h1>
-                                종목 - <span>농구</span>
+                                종목 - <span>{event || "-"}</span>
                             </h1>
                         </div>
                     </div>
