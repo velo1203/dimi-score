@@ -41,12 +41,6 @@
     h1 {
         font-size: 3rem;
     }
-    span {
-        background-color: rgb(0, 0, 0);
-        border-radius: 4px;
-        color: white;
-        padding: 4px 20px;
-    }
 }
 
 .info-container {
