@@ -1,6 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -16,16 +18,25 @@ export async function GET() {
         .select("*");
 
     if (scoreError || eventError) {
-        return NextResponse.json(
-            {
+        return new NextResponse(
+            JSON.stringify({
                 error: scoreError?.message || eventError?.message,
-            },
-            { status: 500 }
+            }),
+            {
+                status: 500,
+                headers: {
+                    "Cache-Control": "no-store",
+                    "Content-Type": "application/json",
+                },
+            }
         );
     }
 
-    return NextResponse.json({
-        scores,
-        events,
+    return new NextResponse(JSON.stringify({ scores, events }), {
+        status: 200,
+        headers: {
+            "Cache-Control": "no-store",
+            "Content-Type": "application/json",
+        },
     });
 }
