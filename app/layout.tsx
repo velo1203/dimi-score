@@ -3,11 +3,11 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-    title: "스코어보드",
-    description: "스코어보드",
+    title: "스코어 보드",
+    description: "스코어 보드",
 
     openGraph: {
-        title: "스코어보드",
+        title: "스코어 보드",
         description: "디미고 스코어보드",
         url: "https://score.devho.net",
         siteName: "score",
