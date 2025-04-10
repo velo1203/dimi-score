@@ -47,7 +47,7 @@ export default function Home() {
     }, []);
 
     return (
-        <div className="page">
+        <div style={{backgroundColor: "white"}} className="page" onClick={async (e) => { await e.currentTarget.requestFullscreen() }}>
             <Head>
                 <link
                     rel="stylesheet"
