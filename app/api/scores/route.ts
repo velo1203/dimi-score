@@ -1,6 +1,9 @@
 import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 
+let cachedData: { scores: { id: number, team: string, score: number, updated_at: string }[]; events: { id: number, event: string, created_at: string }[]; } | null = null;
+let lastFetchTime = 0;
+
 export const dynamic = "force-dynamic";
 
 const supabase = createClient(
@@ -9,6 +12,19 @@ const supabase = createClient(
 );
 
 export async function GET() {
+    const currentTime = Date.now();
+    // Check if cached data exists and if the last fetch was within 2 seconds
+    if (cachedData && (currentTime - lastFetchTime < 2000)) {
+        return new NextResponse(JSON.stringify(cachedData), {
+            status: 200,
+            headers: {
+                "Cache-Control": "no-store",
+                "Content-Type": "application/json",
+            },
+        });
+    }
+
+    // Fetch fresh data from the database
     const { data: scores, error: scoreError } = await supabase
         .from("scores")
         .select("*");
@@ -32,7 +48,11 @@ export async function GET() {
         );
     }
 
-    return new NextResponse(JSON.stringify({ scores, events }), {
+    // Update cache
+    cachedData = { scores, events };
+    lastFetchTime = currentTime;
+
+    return new NextResponse(JSON.stringify(cachedData), {
         status: 200,
         headers: {
             "Cache-Control": "no-store",
