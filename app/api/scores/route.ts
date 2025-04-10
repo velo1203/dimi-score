@@ -14,7 +14,7 @@ const supabase = createClient(
 export async function GET() {
     const currentTime = Date.now();
     // Check if cached data exists and if the last fetch was within 2 seconds
-    if (cachedData && (currentTime - lastFetchTime < 2000)) {
+    if (cachedData && (currentTime - lastFetchTime < 500)) {
         return new NextResponse(JSON.stringify(cachedData), {
             status: 200,
             headers: {
@@ -27,7 +27,9 @@ export async function GET() {
     // Fetch fresh data from the database
     const { data: scores, error: scoreError } = await supabase
         .from("scores")
-        .select("*");
+        .select("*")
+        .eq("current", 1)
+        .limit(2);
 
     const { data: events, error: eventError } = await supabase
         .from("event")

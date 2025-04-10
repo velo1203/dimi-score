@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 type TeamScore = {
     team: string;
     score: number;
+    memo: string;
 };
 
 export default function Home() {
@@ -60,7 +61,7 @@ export default function Home() {
                 <div className="score_section">
                     <div className="team team_blue">
                         <h1>{blue?.score ?? "-"}</h1>
-                        <p>청팀</p>
+                        <p>청팀{blue?.memo ? ` - ${blue?.memo}` : ""}</p>
                     </div>
                     <div className="info-container">
                         <div className="info">
@@ -74,7 +75,7 @@ export default function Home() {
                     </div>
                     <div className="team">
                         <h1>{white?.score ?? "-"}</h1>
-                        <p>백팀</p>
+                        <p>백팀{white?.memo ? ` - ${white?.memo}` : ""}</p>
                     </div>
                 </div>
             </div>
