@@ -43,7 +43,7 @@ export default function Home() {
                 console.error("데이터 불러오기 오류", e);
             }
         };
-        fetchData();
+        setInterval(fetchData, 1000);
     }, []);
 
     return (
